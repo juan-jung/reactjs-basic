@@ -17,7 +17,8 @@
   const App = () => {
     const [counter, setCounter] = React.useState(0);    
     const onClick = () => {
-      setCounter(counter + 1);
+      // setCounter(counter + 1); //현재 값을 기준으로 연산할때 : 이런 방식은 좋지 않은 방식 -> 다른 곳에서 바뀌어서 예상하는 값이 아닐수 있다
+      setCounter((current) => current + 1); //이와 같이 함수를 이용한 방식이 더 안전한 방식
     }
     console.log("rendered");
     console.log(counter)
