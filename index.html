@@ -13,29 +13,31 @@
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    function Btn({text, big}) {
-      console.log(big)
+    function Btn({text, changeValue}) {
+      console.log(text, "was rendered")
       return (
         <button
+        onClick={changeValue} //props로 함수도 넘길 수 있다! / 받은 함수를 등록해야 리슨 시작!
           style={{
             backgroundColor: "tomato",
             color: "white",
             padding: "10px 20px",
             border: 0,
             borderRadius: 10,
-            fontSize : big ? 50 : 16
           }}
         >
           {text}
         </button>
       );
     }
-
+    const MemorizedBtn = React.memo(Btn); //부모의 state변경 -> 부모 + 자식 rerender , but memo를 이용하면 props가 변경되지 않는 한 리렌더링을 막는다.
     const App = () => {
+      const [value, setValue] = React.useState("Save Changes");
+      const changeValue = () => setValue("Rever Changes");
       return (
         <div>
-          <Btn text="Save Changes" big={true} />
-          <Btn text="Continue" />
+          <MemorizedBtn text={value} changeValue={changeValue} /> {/*custom component의 onClick은 이벤트 리스너가 아니라 props.  -> component 안에 html태그에 있는 것이 리스너!*/}
+          <MemorizedBtn text="Continue" />
         </div>
       );
     };
